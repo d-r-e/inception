@@ -19,11 +19,21 @@ services:
     networks:
       - inception
 
-  webtest:
-    build: requirements/test
-    container_name: webtest
+  # webtest:
+  #   build: requirements/test/
+  #   image: webtest
+  #   container_name: webtest
+  #   networks:
+  #     - inception
+
+  mariadb:
+    container_name: mariadb
+    build: requirements/mariadb/
+    restart: unless-stopped
     networks:
       - inception
+    env_file:
+      - .env
 
 
 networks:

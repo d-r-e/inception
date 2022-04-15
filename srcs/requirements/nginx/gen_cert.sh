@@ -1,5 +1,5 @@
 #!/bin/bash
-openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes \
+openssl req -x509 -newkey rsa:4096 -sha256 -days 365 -nodes \
   -keyout conf/certs/inception.key -out conf/certs/inception.crt -extensions san -config \
   <(echo "[req]"; 
     echo distinguished_name=req; 
