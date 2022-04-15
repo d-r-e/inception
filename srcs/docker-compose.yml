@@ -2,22 +2,22 @@ version: "3.9"
 
 
 services:
-  # nginx:
-  #   container_name: nginx
-  #   build: requirements/nginx/
-  #   restart: unless-stopped
-  #   ports:
+  nginx:
+    container_name: nginx
+    build: requirements/nginx/
+    restart: unless-stopped
+    ports:
 
-  #     - 443:443
-  #   volumes:
-  #     - type: bind
-  #       source: ./requirements/nginx/conf/nginx.conf
-  #       target: /etc/nginx/nginx.conf
-  #     - type: bind
-  #       source: ./requirements/nginx/html/index.html
-  #       target: /var/www/html/index.html
-  #   networks:
-  #     - inception
+      - 443:443
+    volumes:
+      - type: bind
+        source: ./requirements/nginx/conf/nginx.conf
+        target: /etc/nginx/nginx.conf
+      - type: bind
+        source: ./requirements/nginx/html/index.html
+        target: /var/www/html/index.html
+    networks:
+      - inception
 
   # webtest:
   #   build: requirements/test/
