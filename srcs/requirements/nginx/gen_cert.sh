@@ -4,6 +4,6 @@ openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes \
   <(echo "[req]"; 
     echo distinguished_name=req; 
     echo "[san]"; 
-    echo subjectAltName=DNS:42.fr,DNS:darodrig.42.fr,IP:127.0.0.1
+    echo subjectAltName=DNS:localhost,DNS:darodrig.localhost,IP:127.0.0.1
     ) \
-     -subj "/C=ES/ST=Spain/L=Madrid/O=Inception/CN=42.fr"
+     -subj "/C=ES/ST=Spain/L=Madrid/O=Inception/CN=localhost"

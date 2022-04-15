@@ -5,9 +5,10 @@ services:
   nginx:
     container_name: nginx
     build: requirements/nginx/
+    restart: unless-stopped
     ports:
-      - 80:80
-      - 8080:8080
+
+      - 443:443
     volumes:
       - type: bind
         source: ./requirements/nginx/conf/nginx.conf
@@ -19,8 +20,10 @@ services:
       - inception
 
   webtest:
-    image: nginx
+    build: requirements/test
     container_name: webtest
+    networks:
+      - inception
 
 
 networks:

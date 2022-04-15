@@ -8,7 +8,7 @@ all: $(NAME)
 re: fclean all
 
 fclean: clean
-	docker rm $$(docker ps -aq)
+	docker rm $$(docker ps -aq) || true
 down:
 	docker-compose -f $(YML) down
 
@@ -20,7 +20,7 @@ d:
 
 clean:
 	docker ps -aq
-	docker stop $$(docker ps -aq)
+	docker stop $$(docker ps -aq) || true
 
 build:
 	docker-compose -f $(YML) build
