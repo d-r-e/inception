@@ -2,22 +2,22 @@ version: "3.9"
 
 
 services:
-  nginx:
-    container_name: nginx
-    build: requirements/nginx/
-    restart: unless-stopped
-    ports:
+  # nginx:
+  #   container_name: nginx
+  #   build: requirements/nginx/
+  #   restart: unless-stopped
+  #   ports:
 
-      - 443:443
-    volumes:
-      - type: bind
-        source: ./requirements/nginx/conf/nginx.conf
-        target: /etc/nginx/nginx.conf
-      - type: bind
-        source: ./requirements/nginx/html/index.html
-        target: /var/www/html/index.html
-    networks:
-      - inception
+  #     - 443:443
+  #   volumes:
+  #     - type: bind
+  #       source: ./requirements/nginx/conf/nginx.conf
+  #       target: /etc/nginx/nginx.conf
+  #     - type: bind
+  #       source: ./requirements/nginx/html/index.html
+  #       target: /var/www/html/index.html
+  #   networks:
+  #     - inception
 
   # webtest:
   #   build: requirements/test/
@@ -28,12 +28,25 @@ services:
 
   mariadb:
     container_name: mariadb
-    build: requirements/mariadb/
+    build:
+      context: requirements/mariadb/
+      args:
+        SQL_ADMIN: ${SQL_ADMIN}
+        SQL_ADMIN_PW: ${SQL_ADMIN_PW}
     restart: unless-stopped
+    volumes:
+      - type: volume
+        source: dbdata
+        target: /var/lib/mysql
+    
     networks:
       - inception
     env_file:
       - .env
+
+volumes:
+  dbdata:
+    name: dbdata
 
 
 networks:
