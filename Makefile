@@ -21,6 +21,8 @@ d:
 
 wp:
 	docker-compose -f $(YML)  up --build wordpress
+db:
+	docker-compose -f $(YML)  up --build mariadb
 
 clean:
 	docker stop $$(docker ps -q) || true
