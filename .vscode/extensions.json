@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "p1c2u.docker-compose",
+        "ms-azuretools.vscode-docker",
+        "IronGeek.vscode-env"
+    ]
+}
