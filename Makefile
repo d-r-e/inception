@@ -1,5 +1,6 @@
-NAME=inception
-YML=srcs/docker-compose.yml
+NAME			=		inception
+YML				=		srcs/docker-compose.yml
+COMPOSE_FLAGS	=		--parallel --compress
 
 $(NAME): build d
 
@@ -26,12 +27,14 @@ prune:
 	yes | docker system prune --volumes
 	yes | docker system prune
 
-build:
-	docker-compose -f $(YML) build --parallel --compress
+build: $(YML)
+	DOCKER_BUILDKIT=1
+
+	docker-compose -f $(YML) build $(COMPOSE_FLAGS)
 
 push:
 	git add srcs Makefile .gitignore
 	git commit -m "$$(date +%Y%m%d%H%M%S)"
 	git push
 
-.PHONY: all inception
+.PHONY: all inception build
