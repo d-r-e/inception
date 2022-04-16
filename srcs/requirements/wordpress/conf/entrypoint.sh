@@ -1,5 +1,5 @@
 #!/bin/bash
-sleep 10
+set -ex
 wp core install\
     --url=${WP_URL}\
     --title=${WP_TITLE}\

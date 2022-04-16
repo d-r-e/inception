@@ -18,15 +18,11 @@ RUN apt-get update &&\
         wget \
         curl \
         tar \
-        mariadb-client php-cli php-mysql php-gd php-xml php7.3-fpm php-fpm
+    mariadb-client php-cli php-mysql php-gd php-xml php7.3-fpm
 # RUN wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add -
 # RUN echo "deb https://packages.sury.org/php/ ${DEBIAN_VERSION} main" | tee /etc/apt/sources.list.d/php.list
 
 #Config php-fpm
-RUN mkdir /run/php
-RUN sed '/^listen =/s/\/run\/php\/php7.3-fpm.sock/9000/' -i /etc/php/7.3/fpm/pool.d/www.conf
-
-
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
@@ -38,6 +34,8 @@ RUN mkdir -p /var/www/html && \
     chown -R www-data:www-data /var/www/.wp-cli/cache/
 
 
+RUN mkdir /run/php
+RUN sed '/^listen =/s/\/run\/php\/php7.3-fpm.sock/9000/' -i /etc/php/7.3/fpm/pool.d/www.conf
 USER www-data
 WORKDIR /var/www/html
 RUN wget https://wordpress.org/latest.tar.gz && \

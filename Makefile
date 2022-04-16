@@ -1,8 +1,8 @@
 NAME			=		inception
 YML				=		srcs/docker-compose.yml
-COMPOSE_FLAGS	=		--parallel --compress
+COMPOSE_FLAGS	=		--parallel
 
-$(NAME): build d
+$(NAME): build up
 
 all: $(NAME)
 
