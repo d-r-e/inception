@@ -31,6 +31,7 @@ services:
       args:
         MSQL_ADMIN: ${MSQL_ADMIN}
         MSQL_PW: ${MSQL_PW}
+        DB_NAME: ${DB_NAME}
     restart: unless-stopped
     volumes:
       - type: volume
@@ -41,11 +42,28 @@ services:
       - inception
     env_file:
       - .env
+  
+  wordpress:
+    container_name: wordpress
+    image: wordpress
+    build:
+      context: requirements/wordpress/
+      args:
+        MSQL_ADMIN: ${MSQL_ADMIN}
+        MSQL_PW: ${MSQL_PW}
+        DB_NAME: ${DB_NAME}
+        DB_HOST: mariadb
+    volumes:
+      - type: volume
+        source: wpdata
+        target: /var/www/html
+
 
 volumes:
   dbdata:
     name: dbdata
-
+  wpdata:
+    name: wpdata
 
 networks:
   inception:

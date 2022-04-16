@@ -28,8 +28,6 @@ prune:
 	yes | docker system prune
 
 build: $(YML)
-	DOCKER_BUILDKIT=1
-
 	docker-compose -f $(YML) build $(COMPOSE_FLAGS)
 
 push:
