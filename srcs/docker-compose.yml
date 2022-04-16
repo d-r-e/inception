@@ -1,13 +1,11 @@
 version: "3.9"
 
-
 services:
   nginx:
     container_name: nginx
     build: requirements/nginx/
     restart: unless-stopped
     ports:
-
       - 443:443
     volumes:
       - type: bind
@@ -31,8 +29,8 @@ services:
     build:
       context: requirements/mariadb/
       args:
-        SQL_ADMIN: ${SQL_ADMIN}
-        SQL_ADMIN_PW: ${SQL_ADMIN_PW}
+        MSQL_ADMIN: ${MSQL_ADMIN}
+        MSQL_PW: ${MSQL_PW}
     restart: unless-stopped
     volumes:
       - type: volume
