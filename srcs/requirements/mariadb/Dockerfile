@@ -23,7 +23,4 @@ RUN service mysql start &&\
 RUN service mysql start  &&\
 	mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MSQL_PW';FLUSH PRIVILEGES;"
 
-HEALTHCHECK --start-period=5m \
-  CMD mysql -e 'SELECT @@datadir;' || exit 1
-
 CMD ["mysqld"]
