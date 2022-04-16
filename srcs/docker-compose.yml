@@ -27,8 +27,7 @@ services:
   #     - inception
 
   mariadb:
-    container_name: mariadb
-    image: mariadb
+    container_name: "mariadb"
     build:
       context: requirements/mariadb/
       args:
@@ -55,6 +54,11 @@ services:
         DB_NAME: ${DB_NAME}
         DB_HOST: ${DB_HOST}
         DEBIAN_VERSION: ${DEBIAN_VERSION}
+        WP_URL: ${WP_URL}
+        WP_TITLE: ${WP_TITLE}
+        WP_ADMIN: ${WP_ADMIN}
+        WP_PASS: ${WP_PASS}
+        WP_MAIL: ${WP_MAIL}
     env_file:
       - .env
     volumes:
@@ -63,8 +67,6 @@ services:
         target: /var/www/html
     networks: [inception]
     
-
-
 volumes:
   dbdata:
     name: dbdata

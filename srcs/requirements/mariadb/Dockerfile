@@ -11,6 +11,11 @@ RUN apt-get update && apt-get install -y mariadb-server
 # RUN apt-get install -y ufw
 # RUN ufw allow 3306 && ufw reload
 
+COPY ./conf/mdb.conf /etc/mysql/mariadb.conf.d/mariadb.conf
+
+RUN mysql_install_db --user=mysql --datadir="/var/lib/mysql" &&\
+	/usr/bin/mysqld_safe --defaults-file=/etc/mysql/mariadb.conf.d/mariadb.conf &
+
 RUN service mysql start &&\
 	mysql -e "CREATE USER '$MSQL_ADMIN'@'localhost' identified by '$MSQL_PW';" 
 
@@ -23,4 +28,5 @@ RUN service mysql start &&\
 RUN service mysql start  &&\
 	mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MSQL_PW';FLUSH PRIVILEGES;"
 
-CMD ["mysqld"]
+# /usr/bin/mysqld_safe --user=$MSQL_ADMIN --password=$MSQL_PW 
+CMD ["/usr/bin/mysqld_safe", "--user=$MSQL_ADMIN", "--password=$MSQL_PW"]
