@@ -29,6 +29,7 @@ services:
 
   mariadb:
     container_name: "mariadb"
+    image: mariadb
     build:
       context: requirements/mariadb/
       args:
@@ -71,6 +72,7 @@ services:
       - inception
     depends_on:
       - mariadb
+    # tty: true
 
     
 volumes:

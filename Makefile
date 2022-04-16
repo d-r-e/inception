@@ -13,11 +13,14 @@ fclean: clean
 down:
 	docker-compose -f $(YML) down
 
-up: build
+up:
 	docker-compose -f $(YML) up
 
 d:
 	docker-compose -f $(YML) up -d
+
+wp:
+	docker-compose -f $(YML)  up --build wordpress
 
 clean:
 	docker stop $$(docker ps -q) || true

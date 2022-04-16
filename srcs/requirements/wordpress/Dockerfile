@@ -7,12 +7,6 @@ ARG MSQL_ADMIN
 ARG MSQL_PW
 ARG DB_HOST
 
-ARG WP_URL
-ARG WP_TITLE
-ARG WP_ADMIN
-ARG WP_PASS
-ARG WP_MAIL
-
 RUN apt-get update &&\
     apt-get install -y \
         wget \
@@ -38,23 +32,23 @@ RUN mkdir /run/php
 RUN sed '/^listen =/s/\/run\/php\/php7.3-fpm.sock/9000/' -i /etc/php/7.3/fpm/pool.d/www.conf
 USER www-data
 WORKDIR /var/www/html
-RUN wget https://wordpress.org/latest.tar.gz && \
-    tar -xzf latest.tar.gz && \
-    mv wordpress/* . && \
-    rm -rf wordpress latest.tar.gz && \
-    cp wp-config-sample.php wp-config.php && \
-    chown -R www-data:www-data .
+# RUN wget https://wordpress.org/latest.tar.gz && \
+#     tar -xzf latest.tar.gz && \
+#     mv wordpress/* . && \
+#     rm -rf wordpress latest.tar.gz && \
+#     cp wp-config-sample.php wp-config.php && \
+#     chown -R www-data:www-data .
 
-RUN sed -i "s/database_name_here/${DB_NAME}/g" wp-config.php && \
-    sed -i "s/username_here/${MSQL_ADMIN}/g" wp-config.php && \
-    sed -i "s/password_here/${MSQL_PW}/g" wp-config.php && \
-    sed -i "s/localhost/${DB_HOST}/g" wp-config.php && \
-    sed -i '21s/^/define("FORCE_SSL_ADMIN", true);\n/' wp-config.php
+# RUN sed -i "s/database_name_here/${DB_NAME}/g" wp-config.php && \
+#     sed -i "s/username_here/${MSQL_ADMIN}/g" wp-config.php && \
+#     sed -i "s/password_here/${MSQL_PW}/g" wp-config.php && \
+#     sed -i "s/localhost/${DB_HOST}/g" wp-config.php && \
+#     sed -i '21s/^/define("FORCE_SSL_ADMIN", true);\n/' wp-config.php
 
 ENV WP_URL=${WP_URL}
 ENV WP_TITLE=${WP_TITLE}
-ENV WP_ADMIN=${WP_ADMIN}
-ENV WP_PASS=${WP_PASS}
+ENV WP_ADMIN=${MSQL_ADMIN}
+ENV WP_PASS=${MSQL_PW}
 ENV WP_MAIL=${WP_MAIL}
 COPY --chown=www-data:www-data conf/entrypoint.sh /entrypoint.sh
 ENTRYPOINT [ "/bin/bash", "/entrypoint.sh" ]
