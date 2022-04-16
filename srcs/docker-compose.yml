@@ -26,6 +26,7 @@ services:
 
   mariadb:
     container_name: mariadb
+    image: mariadb
     build:
       context: requirements/mariadb/
       args:
@@ -52,7 +53,9 @@ services:
         MSQL_ADMIN: ${MSQL_ADMIN}
         MSQL_PW: ${MSQL_PW}
         DB_NAME: ${DB_NAME}
-        DB_HOST: mariadb
+        DB_HOST: ${DB_HOST}
+    env_file:
+      - .env
     volumes:
       - type: volume
         source: wpdata
