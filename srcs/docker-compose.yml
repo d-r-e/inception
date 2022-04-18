@@ -2,6 +2,8 @@ version: "3.8"
 
 services:
   nginx:
+    networks:
+      inception:
     container_name: nginx
     build:
       context: requirements/nginx/
@@ -18,8 +20,6 @@ services:
       - type: bind
         source: ./requirements/nginx/html/index.html
         target: /var/www/html/index.html
-    networks:
-      - inception
   # webtest:
   #   build: requirements/test/
   #   image: webtest
@@ -27,7 +27,7 @@ services:
   #   networks:
   #     - inception
 
-  db:
+  mariadb:
     container_name: $DB_HOST
     build:
       context: requirements/mariadb/
@@ -42,7 +42,7 @@ services:
         source: dbdata
         target: /var/lib/mysql
     networks: 
-      - inception
+      inception:
     env_file: .env
   # nmap:
   #   container_name: nmap
@@ -54,6 +54,8 @@ services:
   #     - mariadb
   wordpress:
     container_name: wordpress
+    networks:
+      - inception
     build:
       context: requirements/wordpress/
       args:
@@ -67,6 +69,7 @@ services:
         WP_ADMIN: ${WP_ADMIN}
         WP_PASS: ${WP_PASS}
         WP_MAIL: ${WP_MAIL}
+
     env_file:
       - .env
     volumes:
@@ -76,8 +79,7 @@ services:
       # - type: bind
       #   source: ./wpdata
       #   target: /var/www/html
-    networks:
-      - inception
+
     depends_on:
       - mariadb
     # tty: true
@@ -85,7 +87,6 @@ services:
 networks:
   inception:
     driver: bridge
-
 volumes:
   dbdata:
     name: dbdata
