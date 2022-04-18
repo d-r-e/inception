@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.5"
 
 services:
   nginx:
@@ -17,9 +17,9 @@ services:
       - type: bind
         source: ./requirements/nginx/conf/nginx.conf
         target: /etc/nginx/nginx.conf
-      - type: bind
-        source: ./requirements/nginx/html/index.html
-        target: /var/www/html/index.html
+      - wpdata:/var/www/html:ro
+    depends_on:
+      - wordpress
   # webtest:
   #   build: requirements/test/
   #   image: webtest
@@ -37,20 +37,20 @@ services:
         MSQL_PW: ${MSQL_PW}
         DB_NAME: ${DB_NAME}
         DEBIAN_VERSION: ${DEBIAN_VERSION}
-    
     volumes: 
       - dbdata:/var/lib/mysql
     networks: 
-      inception:
+      - inception
     env_file: .env
-  nmap:
-    container_name: nmap
+  
+
+  debian:
+    container_name: debian
     image: debian:buster
     networks:
       - inception
     command: ['tail','-f','/dev/null']
-    depends_on:
-      - mariadb
+
 
   wordpress:
     container_name: wordpress
@@ -70,7 +70,6 @@ services:
         WP_ADMIN: ${WP_ADMIN}
         WP_PASS: ${WP_PASS}
         WP_MAIL: ${WP_MAIL}
-
     env_file:
       - .env
     volumes:
@@ -89,14 +88,12 @@ networks:
 
 volumes:
   dbdata:
-    name: dbdata
     driver: local
     driver_opts:
       type: none
-      o: bind
-      device: $HOME/data/dbdata
+      o: 'bind'
+      device: '$HOME/data/dbdata'
   wpdata:
-    name: wpdata
     driver: local
     driver_opts:
       type: none

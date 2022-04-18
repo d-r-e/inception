@@ -8,7 +8,7 @@ ARG MSQL_PW
 ARG DB_HOST
 
 RUN apt-get update &&\
-    apt-get install -y \
+    apt-get install -yq \
         wget \
         curl \
         tar \
@@ -36,6 +36,7 @@ RUN sed '/^listen =/s/\/run\/php\/php7.3-fpm.sock/9000/' -i /etc/php/7.3/fpm/poo
     chown www-data:www-data /etc/php/7.3/fpm/pool.d/www.conf 
 USER www-data
 WORKDIR /var/www/html
+
 # RUN wget https://wordpress.org/latest.tar.gz && \
 #     tar -xzf latest.tar.gz && \
 #     mv wordpress/* . && \
@@ -48,6 +49,7 @@ WORKDIR /var/www/html
 #     sed -i "s/password_here/${MSQL_PW}/g" wp-config.php && \
 #     sed -i "s/localhost/${DB_HOST}/g" wp-config.php && \
 #     sed -i '21s/^/define("FORCE_SSL_ADMIN", true);\n/' wp-config.php
+
 RUN wp core download --path="/var/www/html/" --locale="es_ES"
 RUN wp core config --path="/var/www/html/" --dbuser=${MSQL_ADMIN}  \
     --dbpass="${MSQL_PW}" --dbhost="${DB_HOST}" --dbname="${DB_NAME}" \

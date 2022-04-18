@@ -20,11 +20,11 @@ d:
 	docker-compose -f $(YML) up -d
 
 wp:
-	docker-compose -f $(YML)  up --build wordpress
+	docker-compose -f $(YML)  up -d --build wordpress
 db:
-	docker-compose -f $(YML)  up --build mariadb
+	docker-compose -f $(YML)  up -d --build mariadb
 ng:
-	docker-compose -f $(YML)  up --build nginx
+	docker-compose -f $(YML)  up -d --build nginx
 clean:
 	docker stop $$(docker ps -q) || true
 	docker rm $$(docker ps -aq) || true

@@ -6,7 +6,7 @@ ARG MSQL_PW
 ARG DB_NAME
 
 
-RUN apt-get update && apt-get install -y mariadb-server
+RUN apt-get update && apt-get install -yq mariadb-server
 
 # RUN apt-get install -y ufw
 # RUN ufw allow 3306 && ufw reload
