@@ -23,7 +23,8 @@ wp:
 	docker-compose -f $(YML)  up --build wordpress
 db:
 	docker-compose -f $(YML)  up --build mariadb
-
+ng:
+	docker-compose -f $(YML)  up --build nginx
 clean:
 	docker stop $$(docker ps -q) || true
 	docker rm $$(docker ps -aq) || true
@@ -33,6 +34,8 @@ prune:
 	yes | docker system prune
 
 build: $(YML)
+	mkdir -p $$HOME/data/dbdata
+	mkdir -p $$HOME/data/wpdata
 	docker-compose -f $(YML) build $(COMPOSE_FLAGS)
 
 push:

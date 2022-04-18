@@ -12,6 +12,7 @@ RUN apt-get update &&\
         wget \
         curl \
         tar \
+        netcat \
     mariadb-client php-cli php-mysql php-gd php-xml php7.3-fpm
 # RUN wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add -
 # RUN echo "deb https://packages.sury.org/php/ ${DEBIAN_VERSION} main" | tee /etc/apt/sources.list.d/php.list
@@ -29,8 +30,8 @@ RUN mkdir -p /var/www/html && \
     chown -R www-data:www-data /var/www/html && \
     mkdir -p /var/www/.wp-cli/cache/ && \
     chown -R www-data:www-data /var/www/.wp-cli/cache/
-
-RUN mkdir /run/php
+RUN chown -R www-data:www-data /var/log/
+RUN mkdir /run/php && chown -R www-data:www-data /run/php
 RUN sed '/^listen =/s/\/run\/php\/php7.3-fpm.sock/9000/' -i /etc/php/7.3/fpm/pool.d/www.conf && cat /etc/php/7.3/fpm/pool.d/www.conf &&\
     chown www-data:www-data /etc/php/7.3/fpm/pool.d/www.conf 
 USER www-data
