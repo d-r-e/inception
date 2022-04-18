@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -ex
+set -e
+
 until nc -z mariadb 3306; do
 	echo  "Waiting for database connection..."
   sleep 1

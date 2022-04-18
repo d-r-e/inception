@@ -1,7 +1,7 @@
 NAME			=		inception
 YML				=		srcs/docker-compose.yml
 COMPOSE_FLAGS	=		--parallel
-
+VOLUMES = /home/$$USER/data
 $(NAME): build up
 
 all: $(NAME)
@@ -9,6 +9,7 @@ all: $(NAME)
 re: fclean all
 
 fclean: clean
+	rm -rf $(VOLUMES)
 
 down:
 	docker-compose -f $(YML) down
@@ -43,4 +44,4 @@ push:
 	git commit -m "$$(date +%Y%m%d%H%M%S)"
 	git push
 
-.PHONY: all inception build
+.PHONY: all inception build push prune clean down
