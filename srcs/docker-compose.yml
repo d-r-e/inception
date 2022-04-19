@@ -20,6 +20,7 @@ services:
       - wpdata:/var/www/html:ro
     depends_on:
       - wordpress
+      - mariadb
   # webtest:
   #   build: requirements/test/
   #   image: webtest
@@ -74,7 +75,7 @@ services:
     env_file:
       - .env
     volumes:
-       - wpdata:/var/www/html
+      - wpdata:/var/www/html
       # - type: bind
       #   source: ./wpdata
       #   target: /var/www/html
@@ -89,6 +90,7 @@ networks:
 
 volumes:
   dbdata:
+    name: dbdata
   wpdata:
-
+    name: wpdata
     
