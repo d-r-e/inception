@@ -11,15 +11,11 @@ RUN apt-get update && apt-get install -yq mariadb-server
 # RUN apt-get install -y ufw
 # RUN ufw allow 3306 && ufw reload
 
-COPY ./conf/mdb.conf /etc/mysql/mariadb.conf.d/mariadb.conf
+COPY ./conf/mdb.conf /etc/mysql/mariadb.conf.d/mariadb.cnf
 
 # RUN mkdir -p /var/lib/mysql && chown -R mysql:mysql /var/lib/mysql
 # RUN mysql_install_db --user=mysql --datadir="/var/lib/mysql" &&\
 # 	/usr/bin/mysqld_safe --defaults-file=/etc/mysql/mariadb.conf.d/mariadb.conf &
-
-
-
-
 # RUN	mysql -e "CREATE USER '$MSQL_ADMIN'@'localhost' identified by '$MSQL_PW';" 
 
 # Create db

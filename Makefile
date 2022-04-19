@@ -1,7 +1,7 @@
 NAME			=		inception
 YML				=		srcs/docker-compose.yml
 COMPOSE_FLAGS	=		--parallel
-VOLUMES = /home/$$USER/data
+VOLUMES = $$HOME/data
 $(NAME): build up
 
 all: $(NAME)
@@ -9,7 +9,9 @@ all: $(NAME)
 re: fclean all
 
 fclean: clean
+	docker volume rm $$(docker volume ls -q -f dangling=true) || true
 	rm -rf $(VOLUMES)
+	rm -rf $$HOME/data
 
 down:
 	docker-compose -f $(YML) down

@@ -1,9 +1,9 @@
-version: "3.5"
+version: "3.8"
 
 services:
   nginx:
     networks:
-      inception:
+      - inception
     container_name: nginx
     build:
       context: requirements/nginx/
@@ -38,7 +38,7 @@ services:
         DB_NAME: ${DB_NAME}
         DEBIAN_VERSION: ${DEBIAN_VERSION}
     volumes: 
-      - dbdata:/var/lib/mysql
+      - dbdata:$HOME/data/dbdata:/var/lib/mysql
     networks: 
       - inception
     env_file: .env
@@ -46,6 +46,7 @@ services:
 
   debian:
     container_name: debian
+    build: requirements/test/
     image: debian:buster
     networks:
       - inception
@@ -88,16 +89,6 @@ networks:
 
 volumes:
   dbdata:
-    driver: local
-    driver_opts:
-      type: none
-      o: 'bind'
-      device: '$HOME/data/dbdata'
   wpdata:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: $HOME/data/wpdata
 
     

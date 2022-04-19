@@ -33,7 +33,9 @@ RUN mkdir -p /var/www/html && \
 RUN chown -R www-data:www-data /var/log/
 RUN mkdir /run/php && chown -R www-data:www-data /run/php
 RUN sed '/^listen =/s/\/run\/php\/php7.3-fpm.sock/9000/' -i /etc/php/7.3/fpm/pool.d/www.conf && cat /etc/php/7.3/fpm/pool.d/www.conf &&\
-    chown www-data:www-data /etc/php/7.3/fpm/pool.d/www.conf 
+    chown www-data:www-data /etc/php/7.3/fpm/pool.d/www.conf && \
+    php-fpm7.3 -t
+RUN touch /var/log/php7.3-fpm.log && chown -R www-data:www-data /var/www/html /run/php /var/log/php7.3-fpm.log
 USER www-data
 WORKDIR /var/www/html
 
@@ -51,9 +53,10 @@ WORKDIR /var/www/html
 #     sed -i '21s/^/define("FORCE_SSL_ADMIN", true);\n/' wp-config.php
 
 RUN wp core download --path="/var/www/html/" --locale="es_ES"
-RUN wp core config --path="/var/www/html/" --dbuser=${MSQL_ADMIN}  \
-    --dbpass="${MSQL_PW}" --dbhost="${DB_HOST}" --dbname="${DB_NAME}" \
-    --dbprefix="wp_" --skip-check
+
+# RUN wp core config --path="/var/www/html/" --dbuser=${MSQL_ADMIN}  \
+#     --dbpass="${MSQL_PW}" --dbhost="${DB_HOST}" --dbname="${DB_NAME}" \
+#     --dbprefix="wp_" --skip-check
 ARG WP_CLI_CACHE_DIR=/var/www/html/.wp-cli/cache
 
 
