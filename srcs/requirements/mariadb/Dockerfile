@@ -29,5 +29,6 @@ RUN service mysql start && echo "GRANT ALL PRIVILEGES ON *.* TO '${MSQL_ADMIN}'@
 RUN service mysql start  &&\
 	mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MSQL_PW';FLUSH PRIVILEGES;"
 
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "mysqladmin", "ping" ]
 # /usr/bin/mysqld_safe --user=$MSQL_ADMIN --password=$MSQL_PW 
 CMD ["mysqld_safe", "--user=mysql", "--datadir=/var/lib/mysql", "--pid-file=/var/run/mysqld/mysqld.pid", "--socket=/var/run/mysqld/mysqld.sock", "--basedir=/usr/local/mysql", "--port=3306", "--bind-address=0.0.0.0"]
