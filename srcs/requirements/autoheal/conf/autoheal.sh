@@ -9,6 +9,7 @@ get_unhealthy_containers() {
   # curl -s -XGET --unix-socket /var/run/docker.sock "http://localhost/containers/json?filters=\{\"health\":\[\"unhealthy\"\]\}" | jq .
   curl -s -XGET --unix-socket /var/run/docker.sock "http://localhost/containers/json?filters=\{\"health\":\[\"unhealthy\"\]\}" 
 }
+sleep $AUTOHEAL_INTERVAL
 echo Autoheal is watching...
 
 # tail -f &>/dev/null
@@ -26,6 +27,4 @@ while true; do
     done
 done
 
-
 #curl -XGET --unix-socket /var/run/docker.sock "http://localhost/containers/json?filters=\{\"health\":\[\"unhealthy\"\]${label_filter}\}"
-
