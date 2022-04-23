@@ -12,5 +12,5 @@ RUN sed '/^listen =/s/\/run\/php\/php7.3-fpm.sock/9001/' -i /etc/php/7.3/fpm/poo
     php-fpm7.3 -t
 RUN chown -R www-data:www-data /var/log/
 USER www-data
-# /usr/sbin/php-fpm7.3 --nodaemonize 
-CMD [ "/usr/sbin/php-fpm7.3", "--nodaemonize"]
+WORKDIR /var/www/html/ 
+CMD php -S 0.0.0.0:8080

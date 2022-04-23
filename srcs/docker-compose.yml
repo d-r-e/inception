@@ -112,14 +112,17 @@ services:
     container_name: astro
     build: requirements/astro
     restart: always
-    volumes:
-      - type: bind
-        source: requirements/astro/src
-        target: /var/www/astro
+    networks:
+      - inception
+  adminer:
+    image: adminer
+    container_name: adminer
+    build: requirements/adminer
+    restart: always
     networks:
       - inception
     ports:
-      - 80:80 # borrar!!!!
+      - 8080:8080
 ## BONUS PART ##
 ################
             
