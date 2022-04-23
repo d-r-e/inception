@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -yq mariadb-server
 # RUN apt-get install -y ufw
 # RUN ufw allow 3306 && ufw reload
 
-COPY ./conf/mdb.conf /etc/mysql/mariadb.conf.d/mariadb.cnf
+# COPY ./conf/mdb.conf /etc/mysql/mariadb.conf.d/mariadb.cnf
 
 # RUN mkdir -p /var/lib/mysql && chown -R mysql:mysql /var/lib/mysql
 # RUN mysql_install_db --user=mysql --datadir="/var/lib/mysql" &&\

@@ -16,6 +16,8 @@ if [ ! -f /var/www/html/wp-config.php ]; then
   wp core install --path="/var/www/html/" --url="${WP_URL}" \
       --title=${WP_TITLE} --admin_user="${WP_ADMIN}" --admin_password="${WP_PASS}" \
       --admin_email="$WP_MAIL" --skip-email
+  ## add regular user to wp
+  wp user create marvin marvin@42madrid.com --role=editor --user_pass=${WP_PASS} 
 
   echo "WordPress configured"
 fi

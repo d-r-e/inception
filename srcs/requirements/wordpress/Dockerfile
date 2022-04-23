@@ -20,7 +20,7 @@ RUN apt-get update &&\
 #Config php-fpm
 
 # add user test with password 1234
-RUN useradd -m -p 1234 test
+# RUN useradd -m -p 1234 test
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
@@ -66,6 +66,7 @@ ENV WP_ADMIN=${MSQL_ADMIN}
 ENV WP_PASS=${MSQL_PW}
 ENV WP_MAIL=${WP_MAIL}
 ENV WP_CLI_CACHE_DIR=/var/www/html/.wp-cli/cache
+
 COPY --chown=www-data:www-data conf/entrypoint.sh /entrypoint.sh
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "curl", "--fail", "--silent", "--show-error", "--retry", "3", "--retry-delay", "5", "--insecure", "-I", "https://nginx/" ]
 ENTRYPOINT [ "/bin/bash", "/entrypoint.sh" ]

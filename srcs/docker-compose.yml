@@ -46,15 +46,6 @@ services:
       - inception
     env_file: .env
 
-  # debian:
-  #   container_name: debian
-  #   build: requirements/test/
-  #   image: debian:buster
-  #   networks:
-  #     - inception
-  #   command: ['tail','-f','/dev/null']
-
-
   wordpress:
     image: wordpress
     container_name: wordpress
@@ -98,6 +89,26 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     env_file: .env
 
+  ftp:
+    image: ftp
+    container_name: ftp
+    build:
+      context: requirements/ftp
+      args:
+        FTP_USER: ${FTP_USER}
+        FTP_PASS: ${FTP_PASS}
+    restart: always
+    volumes:
+      - wpdata:/home/ftp/${FTP_USER}
+      # - type: bind
+      #   source: requirements/ftp/conf/
+        # target: /etc/vsftpd/
+    ports:
+      - 2121:21
+    networks:
+      - inception
+    depends_on:
+      - wordpress
 ## BONUS PART ##
 ################
             
