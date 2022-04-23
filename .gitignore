@@ -3,7 +3,7 @@
 *.pdf
 /wpdata/**
 ./wpdata
-
+**/node_modules
 # ignore everything in the "wp-content" directory, except:
 # "mu-plugins", "plugins", "themes" directory
 wp-content/*

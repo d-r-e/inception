@@ -100,15 +100,26 @@ services:
     restart: always
     volumes:
       - wpdata:/home/ftp/${FTP_USER}
-      # - type: bind
-      #   source: requirements/ftp/conf/
-        # target: /etc/vsftpd/
     ports:
       - 2121:21
     networks:
       - inception
     depends_on:
       - wordpress
+
+  astro:
+    image: astro
+    container_name: astro
+    build: requirements/astro
+    restart: always
+    volumes:
+      - type: bind
+        source: requirements/astro/src
+        target: /var/www/astro
+    networks:
+      - inception
+    ports:
+      - 80:80 # borrar!!!!
 ## BONUS PART ##
 ################
             
