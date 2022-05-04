@@ -70,4 +70,3 @@ ENV WP_CLI_CACHE_DIR=/var/www/html/.wp-cli/cache
 COPY --chown=www-data:www-data conf/entrypoint.sh /entrypoint.sh
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "curl", "--fail", "--silent", "--show-error", "--retry", "3", "--retry-delay", "5", "--insecure", "-I", "https://nginx/" ]
 ENTRYPOINT [ "/bin/bash", "/entrypoint.sh" ]
-

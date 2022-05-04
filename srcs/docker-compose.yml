@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   nginx:
+    hostname: nginx
     image: nginx
     networks:
       - inception
@@ -15,19 +16,13 @@ services:
     ports:
       - 443:443
     volumes:
-      - type: bind
-        source: ./requirements/nginx/conf/nginx.conf
-        target: /etc/nginx/nginx.conf
+      # - type: bind
+      #   source: ./requirements/nginx/conf/nginx.conf
+      #   target: /etc/nginx/nginx.conf
       - wpdata:/var/www/html:ro
     depends_on:
       - wordpress
       - mariadb
-  # webtest:
-  #   build: requirements/test/
-  #   image: webtest
-  #   container_name: webtest
-  #   networks:
-  #     - inception
 
   mariadb:
     image: mariadb
@@ -68,15 +63,12 @@ services:
     env_file: .env
     volumes:
       - wpdata:/var/www/html
-      # - type: bind
-      #   source: ./wpdata
-      #   target: /var/www/html
 
     depends_on:
       - mariadb
 
 ################
-## BONUS PART ##
+##🎢 BONUS PART 🐬##
 
   autoheal:
     image: autoheal
@@ -93,6 +85,7 @@ services:
 
   ftp:
     image: ftp
+    hostname: ftp
     container_name: ftp
     build:
       context: requirements/ftp
@@ -110,10 +103,15 @@ services:
       - wordpress
 
   astro:
+    hostname: astro
     image: astro
     container_name: astro
     build: requirements/astro
     restart: always
+    volumes:
+      - type: bind
+        source: ./requirements/astro/conf/nginx.conf
+        target: /etc/nginx/nginx.conf
     networks:
       - inception
   adminer:
@@ -125,13 +123,9 @@ services:
       - inception
     ports:
       - 8080:8080
-## BONUS PART ##
+##✨ BONUS PART ✨##
 ################
             
-
-
-
-
 networks:
   inception:
     name: inception
@@ -139,6 +133,13 @@ networks:
 volumes:
   dbdata:
     name: dbdata
+    driver_opts:
+      device: $HOME/data/dbdata
+      type: 'bind'
+      o: 'bind'
   wpdata:
     name: wpdata
-    
+    driver_opts:
+      device: $HOME/data/wpdata
+      type: 'bind'
+      o: 'bind'
